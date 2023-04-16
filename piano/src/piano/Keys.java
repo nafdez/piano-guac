@@ -8,9 +8,9 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 
-public class Keys extends JPanel implements ActionListener {
+public class Keys extends JLayeredPane implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	Player player;
@@ -27,7 +27,7 @@ public class Keys extends JPanel implements ActionListener {
 		setLayout(null);
 		int xPos = 0;
 		int yPos = 0;
-		
+
 		for (int i = 0; i < nKeys; i++) {
 			for (String note : notes) {
 				keys.add(newButton((i + 1) + note, null));
@@ -36,13 +36,14 @@ public class Keys extends JPanel implements ActionListener {
 			JButton currentKey = keys.get(i);
 
 			if (currentKey.getActionCommand().contains("#")) {
-				styleButton(currentKey, Color.WHITE, Color.BLACK, (xPos-12), yPos, 25, 150);
+				styleButton(currentKey, Color.WHITE, Color.BLACK, (xPos - 12), yPos, 25, 150);
+				add(currentKey, Integer.valueOf(1));
 			} else {
 				styleButton(currentKey, Color.BLACK, Color.WHITE, xPos, yPos, 37, 210);
 				xPos += 37;
+				add(currentKey, Integer.valueOf(0));
 			}
 
-			add(currentKey);
 		}
 
 	}
@@ -52,11 +53,11 @@ public class Keys extends JPanel implements ActionListener {
 		key.setForeground(textColor);
 		key.setBackground(bgColor);
 		key.setBounds(xStart, yStart, width, height);
-		
+
 		key.setFont(Resources.font);
 		System.out.println(key.getText());
 		key.setVerticalAlignment(JButton.BOTTOM);
-		
+
 		return key;
 	}
 

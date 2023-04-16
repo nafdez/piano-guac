@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 public class Resources {
 
 	public static ImageIcon songPlayer;
+	public static ImageIcon stop;
 	public static Font font;
 
 	static {
@@ -18,6 +19,10 @@ public class Resources {
 			Image img = ImageIO.read(Resources.class.getResourceAsStream("/navi.png")).getScaledInstance(16, 16,
 					Image.SCALE_SMOOTH);
 			songPlayer = new ImageIcon(img);
+			
+			img = ImageIO.read(Resources.class.getResourceAsStream("/stop.png")).getScaledInstance(16, 16,
+					Image.SCALE_SMOOTH);
+			stop = new ImageIcon(img);
 			
 			font = Font.createFont(Font.PLAIN, Resources.class.getResourceAsStream("/SF-UI-Display-Regular.otf"))
 					.deriveFont(14f);

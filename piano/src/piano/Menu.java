@@ -5,13 +5,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class Menu extends JPanel implements ActionListener {
+public class Menu extends JPanel implements ActionListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	Player player;
+	JSlider volSlider;
+	JLabel volLabel;
 
 	public Menu(Player player) {
 		this.player = player;
@@ -20,51 +25,56 @@ public class Menu extends JPanel implements ActionListener {
 
 	private void inicialize() {
 		JButton songOfTime = newButton("SoT", Resources.songPlayer);
-		songOfTime.setText("");
 		add(songOfTime);
 
-		JSlider volume = newSlider("VOLUME", 0, 127);
-		volume.getValue();
-		Thread volumeListener = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					player.setVOLUME(volume.getValue());
-				}
-			}
-		});
-		volumeListener.start();
-
-		add(volume);
+		JButton stopBtn = newButton("STOP", Resources.stop);
+		add(stopBtn);
+		
+		volSlider = new JSlider(0, 100, 80);
+		volSlider.addChangeListener(this);
+		add(volSlider);
+		
+		volLabel = new JLabel(volSlider.getValue() + "%");
+		volLabel.setFont(Resources.font);
+		add(volLabel);
 	}
 
 	private JButton newButton(String actionCommand, ImageIcon icon) {
 		JButton button = new JButton(icon);
-		button.setText(actionCommand);
 		button.setActionCommand(actionCommand);
 		button.addActionListener(this);
 		return button;
 	}
 
-	private JSlider newSlider(String actionCommand, int min, int max) {
-		JSlider slider = new JSlider();
-		slider.setMinimum(min);
-		slider.setMaximum(max);
-		return slider;
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Thread stopListener = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (e.getActionCommand().equals("STOP")) {
+					System.out.println("STOP");
+				}
+			}
+		});
+
+		stopListener.start();
+
 		if (e.getActionCommand().equals("SoT")) {
-			System.out.println("hey! Listen!");
+			System.out.println("Hey! Listen!");
 			try {
 				player.songOfTime();
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-		} else if (e.getActionCommand().equals("VOLUME")) {
-
 		}
+
+		stopListener.interrupt();
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		player.setVOLUME(volSlider.getValue());
+		volLabel.setText(volSlider.getValue() + "%");
 	}
 
 }
