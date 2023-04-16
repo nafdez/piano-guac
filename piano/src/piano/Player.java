@@ -23,7 +23,7 @@ public class Player {
 	private static List<String> notes = Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B");
 	private static MidiChannel[] channels;
 	private static int INSTRUMENT = 0; // 0 is a piano, 9 is percussion, other channels are for other instruments
-	private static int VOLUME = 127; // between 0 et 127
+	private int VOLUME = 127; // between 0 et 127
 
 	public Player() throws Exception {
 		// * Open a synthesizer
@@ -34,6 +34,14 @@ public class Player {
 
 	public List<String> getNotes() {
 		return Collections.unmodifiableList(notes);
+	}
+
+	public int getVOLUME() {
+		return VOLUME;
+	}
+
+	public void setVOLUME(int VOLUME) {
+		this.VOLUME = VOLUME;
 	}
 
 	/**

@@ -36,10 +36,10 @@ public class Keys extends JPanel implements ActionListener {
 			JButton currentKey = keys.get(i);
 
 			if (currentKey.getActionCommand().contains("#")) {
-				styleButton(currentKey, Color.WHITE, Color.BLACK, (xPos-25), yPos, 50, 150);
+				styleButton(currentKey, Color.WHITE, Color.BLACK, (xPos-12), yPos, 25, 150);
 			} else {
-				styleButton(currentKey, Color.BLACK, Color.WHITE, xPos, yPos, 75, 250);
-				xPos += 75;
+				styleButton(currentKey, Color.BLACK, Color.WHITE, xPos, yPos, 37, 210);
+				xPos += 37;
 			}
 
 			add(currentKey);
@@ -52,7 +52,11 @@ public class Keys extends JPanel implements ActionListener {
 		key.setForeground(textColor);
 		key.setBackground(bgColor);
 		key.setBounds(xStart, yStart, width, height);
-
+		
+		key.setFont(Resources.font);
+		System.out.println(key.getText());
+		key.setVerticalAlignment(JButton.BOTTOM);
+		
 		return key;
 	}
 
