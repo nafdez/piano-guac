@@ -24,8 +24,7 @@ public class Resources {
 					Image.SCALE_SMOOTH);
 			stop = new ImageIcon(img);
 			
-			font = Font.createFont(Font.PLAIN, Resources.class.getResourceAsStream("/SF-UI-Display-Regular.otf"))
-					.deriveFont(14f);
+			font = Font.createFont(Font.PLAIN, Resources.class.getResourceAsStream("/SF-UI-Display-Regular.otf"));
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}

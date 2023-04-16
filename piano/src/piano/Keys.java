@@ -1,6 +1,7 @@
 package piano;
 
 import java.awt.Color;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -37,10 +38,12 @@ public class Keys extends JLayeredPane implements ActionListener {
 
 			if (currentKey.getActionCommand().contains("#")) {
 				styleButton(currentKey, Color.WHITE, Color.BLACK, (xPos - 12), yPos, 25, 150);
+				currentKey.setFont(Resources.font.deriveFont(10f));
 				add(currentKey, Integer.valueOf(1));
 			} else {
 				styleButton(currentKey, Color.BLACK, Color.WHITE, xPos, yPos, 37, 210);
 				xPos += 37;
+				currentKey.setFont(Resources.font.deriveFont(14f));
 				add(currentKey, Integer.valueOf(0));
 			}
 
@@ -54,7 +57,8 @@ public class Keys extends JLayeredPane implements ActionListener {
 		key.setBackground(bgColor);
 		key.setBounds(xStart, yStart, width, height);
 
-		key.setFont(Resources.font);
+		key.setMargin(new Insets(0, 0, 0, 0));
+		key.setFocusable(false);
 		System.out.println(key.getText());
 		key.setVerticalAlignment(JButton.BOTTOM);
 

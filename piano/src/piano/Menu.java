@@ -25,9 +25,11 @@ public class Menu extends JPanel implements ActionListener, ChangeListener {
 
 	private void inicialize() {
 		JButton songOfTime = newButton("SoT", Resources.songPlayer);
+		songOfTime.setFocusable(false);
 		add(songOfTime);
 
 		JButton stopBtn = newButton("STOP", Resources.stop);
+		stopBtn.setFocusable(false);
 		add(stopBtn);
 		
 		volSlider = new JSlider(0, 100, 80);
@@ -35,7 +37,7 @@ public class Menu extends JPanel implements ActionListener, ChangeListener {
 		add(volSlider);
 		
 		volLabel = new JLabel(volSlider.getValue() + "%");
-		volLabel.setFont(Resources.font);
+		volLabel.setFont(Resources.font.deriveFont(14f));
 		add(volLabel);
 	}
 
