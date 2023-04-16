@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 public class Launcher extends JFrame {
@@ -23,12 +24,16 @@ public class Launcher extends JFrame {
 		Player player;
 		try {
 			player = new Player();
+			
 			Keys keys = new Keys(61, player);
+			keys.scrollRectToVisible(getBounds());
+			JScrollPane scrollKeyPane = new JScrollPane(keys);
+			
 			Menu menu = new Menu(player);
 			
 			menu.setMaximumSize(new Dimension(750, 16));
 			
-			contentPane.add(keys);
+			contentPane.add(scrollKeyPane);
 			contentPane.add(menu);
 
 			pack();

@@ -51,7 +51,7 @@ public class Keys extends JLayeredPane implements ActionListener {
 
 	}
 
-	private JButton styleButton(JButton key, Color textColor, Color bgColor, int xStart, int yStart, int width,
+	private void styleButton(JButton key, Color textColor, Color bgColor, int xStart, int yStart, int width,
 			int height) {
 		key.setForeground(textColor);
 		key.setBackground(bgColor);
@@ -61,8 +61,6 @@ public class Keys extends JLayeredPane implements ActionListener {
 		key.setFocusable(false);
 		System.out.println(key.getText());
 		key.setVerticalAlignment(JButton.BOTTOM);
-
-		return key;
 	}
 
 	private JButton newButton(String actionCommand, ImageIcon icon) {
