@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 
+import piano.Player.Note;
+
 public class Keys extends JLayeredPane implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -73,11 +75,9 @@ public class Keys extends JLayeredPane implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {
-			player.play(e.getActionCommand(), 300);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+		new Thread(new Note(e.getActionCommand(), 300)).start();
+//			new Thread(player::playSongOfTime).start();
+//			player.play(e.getActionCommand(), 300);
 	}
 
 }

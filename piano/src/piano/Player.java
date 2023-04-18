@@ -112,11 +112,15 @@ public class Player {
 		}
 	}
 	
+	public void playNote(String note, int duration) {
+		new Note(note, duration).play();
+	}
+	
 	public void stopSongOfTime() {
 		stop = true;
 	}
 	
-	static class Note {
+	static class Note implements Runnable{
 		String note;
 		int duration;
 		
@@ -138,6 +142,12 @@ public class Player {
 			if (note != null)
 				channels[INSTRUMENT].noteOff(id(note));
 		}
+
+		@Override
+		public void run() {
+			this.play();
+		}
 	}
+
 	
 }
