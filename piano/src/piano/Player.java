@@ -1,7 +1,9 @@
 package piano;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.sound.midi.MidiChannel;
@@ -23,7 +25,7 @@ public class Player {
 	private static List<String> notes = Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B");
 	private static MidiChannel[] channels;
 	private static int INSTRUMENT = 0; // 0 is a piano, 9 is percussion, other channels are for other instruments
-	private int VOLUME = 127; // between 0 et 127
+	private static int VOLUME = 127; // between 0 et 127
 
 	public Player() throws Exception {
 		// * Open a synthesizer
@@ -77,27 +79,65 @@ public class Player {
 		synth.close();
 	}
 
-	public void songOfTime() throws InterruptedException {
-		// Song of time
-		play("6A", 300);
-		play("6D", 500);
-		rest(500);
-		play("6F", 500);
-		play("6A", 500);
-		play("6D", 500);
-		rest(500);
-		play("6F", 300);
-		play("6A", 300);
-		play("7C", 300);
-		play("6B", 500);
-		play("6G", 500);
-		play("6F", 300);
-		play("6G", 300);
-		play("6A", 500);
-		play("6D", 500);
-		play("6C", 300);
-		play("6E", 300);
-		play("6D", 600);
+	static final List<Note> songOfTime;
+	static {
+		songOfTime = new ArrayList<>();
+		songOfTime.add(new Note("6A", 300));
+		songOfTime.add(new Note("6D", 500));
+		songOfTime.add(new Note(null, 500));
+		songOfTime.add(new Note("6F", 500));
+		songOfTime.add(new Note("6A", 500));
+		songOfTime.add(new Note("6D", 500));
+		songOfTime.add(new Note(null, 500));
+		songOfTime.add(new Note("6F", 300));
+		songOfTime.add(new Note("6A", 300));
+		songOfTime.add(new Note("7C", 300));
+		songOfTime.add(new Note("6B", 500));
+		songOfTime.add(new Note("6G", 500));
+		songOfTime.add(new Note("6F", 300));
+		songOfTime.add(new Note("6G", 300));
+		songOfTime.add(new Note("6A", 500));
+		songOfTime.add(new Note("6D", 500));
+		songOfTime.add(new Note("6C", 300));
+		songOfTime.add(new Note("6E", 300));
+		songOfTime.add(new Note("6D", 600));
+	}
+	
+	private volatile boolean stop;
+	public void playSongOfTime() {
+		stop = false;
+		Iterator<Note> i = songOfTime.iterator();
+		while (!stop && i.hasNext()) {
+			i.next().play();
+		}
+	}
+	
+	public void stopSongOfTime() {
+		stop = true;
+	}
+	
+	static class Note {
+		String note;
+		int duration;
+		
+		public Note(String note, int duration) {
+			this.note = note;
+			this.duration = duration;
+		}
+
+		public void play() {
+			// * start playing a note
+			if (note != null)
+				channels[INSTRUMENT].noteOn(id(note), VOLUME);
+			// * wait
+			try {
+				Thread.sleep(duration);
+			} catch (InterruptedException e) {
+			}
+			// * stop playing a note
+			if (note != null)
+				channels[INSTRUMENT].noteOff(id(note));
+		}
 	}
 	
 }

@@ -50,27 +50,13 @@ public class Menu extends JPanel implements ActionListener, ChangeListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Thread stopListener = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				if (e.getActionCommand().equals("STOP")) {
-					System.out.println("STOP");
-				}
-			}
-		});
-
-		stopListener.start();
-
 		if (e.getActionCommand().equals("SoT")) {
 			System.out.println("Hey! Listen!");
-			try {
-				player.songOfTime();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
+			new Thread(player::playSongOfTime).start();
 		}
+		else if (e.getActionCommand().equals("STOP"))
+			player.stopSongOfTime();
 
-		stopListener.interrupt();
 	}
 
 	@Override
