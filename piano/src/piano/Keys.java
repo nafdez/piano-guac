@@ -11,19 +11,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 
-import piano.Player.Note;
+import player.Note;
+import player.Player;
 
 public class Keys extends JLayeredPane implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	Player player;
 	ArrayList<JButton> keys = new ArrayList<>();
 	int nKeys;
 
-	public Keys(int nKeys, Player player) {
-		this.player = player;
+	public Keys(int nKeys) {
 		this.nKeys = nKeys;
-		inicialize(this.player.getNotes());
+		inicialize(Player.getNotes());
 	}
 
 	private void inicialize(List<String> notes) {
@@ -61,7 +60,6 @@ public class Keys extends JLayeredPane implements ActionListener {
 
 		key.setMargin(new Insets(0, 0, 0, 0));
 		key.setFocusable(false);
-		System.out.println(key.getText());
 		key.setVerticalAlignment(JButton.BOTTOM);
 	}
 

@@ -11,6 +11,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import player.Player;
+
 public class Menu extends JPanel implements ActionListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;
@@ -52,10 +54,11 @@ public class Menu extends JPanel implements ActionListener, ChangeListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("SoT")) {
 			System.out.println("Hey! Listen!");
-			new Thread(player::playSongOfTime).start();
+//			for(int i = 0; i<100; i++)
+			new Thread(player::playLaResaka).start();
 		}
 		else if (e.getActionCommand().equals("STOP"))
-			player.stopSongOfTime();
+			player.stop();
 
 	}
 

@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import player.Player;
+
 public class Launcher extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -15,24 +17,22 @@ public class Launcher extends JFrame {
 	Launcher(String[] args) {
 		super("MyApp");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		setPreferredSize(new Dimension(750, 285));
-		
+
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		
-		Player player;
+
 		try {
-			player = new Player();
-			
-			Keys keys = new Keys(61, player);
+			Player player = new Player();
+			Keys keys = new Keys(61);
 			keys.scrollRectToVisible(getBounds());
 			JScrollPane scrollKeyPane = new JScrollPane(keys);
-			
+
 			Menu menu = new Menu(player);
-			
+
 			menu.setMaximumSize(new Dimension(750, 16));
-			
+
 			contentPane.add(scrollKeyPane);
 			contentPane.add(menu);
 

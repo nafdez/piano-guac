@@ -1,4 +1,4 @@
-package piano;
+package player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import javax.sound.midi.Synthesizer;
  * 
  * @author Peter
  * 
- * Modified to use with this application
+ *         Modified to use with this application
  */
 public class Player {
 
@@ -34,7 +34,7 @@ public class Player {
 		channels = synth.getChannels();
 	}
 
-	public List<String> getNotes() {
+	public static List<String> getNotes() {
 		return Collections.unmodifiableList(notes);
 	}
 
@@ -43,7 +43,19 @@ public class Player {
 	}
 
 	public void setVOLUME(int VOLUME) {
-		this.VOLUME = VOLUME;
+		Player.VOLUME = VOLUME;
+	}
+
+	public static MidiChannel[] getChannels() {
+		return channels;
+	}
+
+	public static int getInstrument() {
+		return INSTRUMENT;
+	}
+
+	public static int getVolume() {
+		return VOLUME;
 	}
 
 	/**
@@ -59,22 +71,15 @@ public class Player {
 	}
 
 	/**
-	 * Plays nothing for the given duration
-	 */
-	private void rest(int duration) throws InterruptedException {
-		Thread.sleep(duration);
-	}
-
-	/**
 	 * Returns the MIDI id for a given note: eg. 4C -> 60
 	 * 
 	 * @return
 	 */
-	private static int id(String note) {
+	public static int id(String note) {
 		int octave = Integer.parseInt(note.substring(0, 1));
 		return notes.indexOf(note.substring(1)) + 12 * octave + 12;
 	}
-	
+
 	public void close() {
 		synth.close();
 	}
@@ -102,8 +107,60 @@ public class Player {
 		songOfTime.add(new Note("6E", 300));
 		songOfTime.add(new Note("6D", 600));
 	}
-	
+
+	static final List<Note> laResaka;
+	static {
+		laResaka = new ArrayList<>();
+		laResaka.add(new Note("3E", 300));
+		laResaka.add(new Note("3A", 300));
+		for (int i = 0; i < 4; i++) {
+			laResaka.add(new Note("3E", 150));
+		}
+		laResaka.add(new Note("3A", 150));
+		laResaka.add(new Note("3E", 150));
+		laResaka.add(new Note("4C", 150));
+		laResaka.add(new Note("4C", 150));
+
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 200));
+		laResaka.add(new Note("3B", 500));
+
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 200));
+		laResaka.add(new Note("3B", 200));
+
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 200));
+		laResaka.add(new Note("3B", 200));
+
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 300));
+
+		// 2
+		for (int i = 0; i < 6; i++) {
+			laResaka.add(new Note("3E", 150));
+		}
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 200));
+		laResaka.add(new Note("3B", 500));
+
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 200));
+		laResaka.add(new Note("3B", 200));
+
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 200));
+		laResaka.add(new Note("3B", 200));
+
+		laResaka.add(new Note("4F", 175));
+		laResaka.add(new Note("4E", 200));
+		laResaka.add(new Note("4C", 200));
+		laResaka.add(new Note("3B", 200));
+		laResaka.add(new Note("3A", 300));
+	}
+
 	private volatile boolean stop;
+
 	public void playSongOfTime() {
 		stop = false;
 		Iterator<Note> i = songOfTime.iterator();
@@ -111,43 +168,21 @@ public class Player {
 			i.next().play();
 		}
 	}
-	
+
+	public void playLaResaka() {
+		stop = false;
+		Iterator<Note> i = laResaka.iterator();
+		while (!stop && i.hasNext()) {
+			i.next().play();
+		}
+	}
+
 	public void playNote(String note, int duration) {
 		new Note(note, duration).play();
 	}
-	
-	public void stopSongOfTime() {
+
+	public void stop() {
 		stop = true;
 	}
-	
-	static class Note implements Runnable{
-		String note;
-		int duration;
-		
-		public Note(String note, int duration) {
-			this.note = note;
-			this.duration = duration;
-		}
 
-		public void play() {
-			// * start playing a note
-			if (note != null)
-				channels[INSTRUMENT].noteOn(id(note), VOLUME);
-			// * wait
-			try {
-				Thread.sleep(duration);
-			} catch (InterruptedException e) {
-			}
-			// * stop playing a note
-			if (note != null)
-				channels[INSTRUMENT].noteOff(id(note));
-		}
-
-		@Override
-		public void run() {
-			this.play();
-		}
-	}
-
-	
 }
