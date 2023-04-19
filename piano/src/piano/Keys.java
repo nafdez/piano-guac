@@ -2,8 +2,8 @@ package piano;
 
 import java.awt.Color;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +14,7 @@ import javax.swing.JLayeredPane;
 import player.Note;
 import player.Player;
 
-public class Keys extends JLayeredPane implements ActionListener {
+public class Keys extends JLayeredPane implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	ArrayList<JButton> keys = new ArrayList<>();
@@ -65,17 +65,51 @@ public class Keys extends JLayeredPane implements ActionListener {
 
 	private JButton newButton(String actionCommand, ImageIcon icon) {
 		JButton button = new JButton(icon);
+		button.setName(actionCommand);
 		button.setText(actionCommand);
-		button.setActionCommand(actionCommand);
-		button.addActionListener(this);
+		button.addMouseListener(this);
 		return button;
 	}
 
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		new Thread(new Note(e.getActionCommand(), 300)).start();
+////			new Thread(player::playSongOfTime).start();
+////			player.play(e.getActionCommand(), 300);
+//	}
+	
+
+    /*No need to override other methods, `MouseAdapter` already does it*/
+
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		new Thread(new Note(e.getActionCommand(), 300)).start();
-//			new Thread(player::playSongOfTime).start();
-//			player.play(e.getActionCommand(), 300);
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+    public void mousePressed(MouseEvent e) {
+		long t1 = System.nanoTime();
+        //do some stuff
+		new Thread(new Note(e.getComponent().getName(), t1)).start();
+    }
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		Note.stop();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
