@@ -77,23 +77,17 @@ public class Keys extends JLayeredPane implements MouseListener {
 ////			new Thread(player::playSongOfTime).start();
 ////			player.play(e.getActionCommand(), 300);
 //	}
-	
-
-    /*No need to override other methods, `MouseAdapter` already does it*/
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-    public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		long t1 = System.nanoTime();
-        //do some stuff
+		// do some stuff
 		new Thread(new Note(e.getComponent().getName(), t1)).start();
-    }
-
+	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -102,14 +96,10 @@ public class Keys extends JLayeredPane implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
